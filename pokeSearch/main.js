@@ -1,16 +1,29 @@
 const input = document.querySelector('input')
-const button = document.querySelector('button')
+const buttonSearch = document.querySelector('.btn-search')
+const buttonPrevious = document.querySelector('.btn-prev')
+const buttonNext = document.querySelector('.btn-next')
 const pokemonContainer = document.querySelector('.pokemon-container')
 
 const form = document.getElementById('form')
 
-function getPokemon (pokemon) {
+let pokemonId = null
+
+function getPokemonByName (pokemon) {
     fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}/`)
     .then(response => response.json())
     .then(data => {
         createPokemon(data)
+        pokemonId = data.id
         form.reset()
     })
+}
+
+function getPokemonById (pokemon) {
+    fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}/`)
+    .then(response => response.json())
+    .then(data => {
+        createPokemon(data)
+    })   
 }
 
 function createPokemon (pokemon) {
@@ -31,12 +44,34 @@ function clearPokemon () {
     pokemonContainer.innerHTML = ''
 }
 
-button.addEventListener('click', (e) => {
+buttonSearch.addEventListener('click', (e) => {
     e.preventDefault()
     if (input.value == '') {
-        console.log('Please!!')
+        alert('Choose a Pokemon!')
     } else {
-        getPokemon(input.value.toLowerCase())
+        getPokemonByName(input.value.toLowerCase())
         clearPokemon()
+    }
+})
+
+buttonPrevious.addEventListener('click', (e) => {
+    e.preventDefault()
+    if (pokemonId == null) {
+        alert('Choose a Pokemon!')
+    } else {
+        clearPokemon()
+        pokemonId--
+        getPokemonById(pokemonId)
+    }
+})
+
+buttonNext.addEventListener('click', (e) => {
+    e.preventDefault()
+    if (pokemonId == null) {
+        alert('Choose a Pokemon!')
+    } else {
+        clearPokemon()
+        pokemonId++
+        getPokemonById(pokemonId)
     }
 })

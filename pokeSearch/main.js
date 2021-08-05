@@ -27,15 +27,15 @@ function getPokemonById (pokemon) {
 }
 
 function createPokemon (pokemon) {
+    const infoPokemon = document.createElement('h3')
+    infoPokemon.textContent = '#' + pokemon.id + ' ' + pokemon.name.toUpperCase()
+
     const imgPokemon = document.createElement('img')
     imgPokemon.src = pokemon.sprites.front_default
 
-    const namePokemon = document.createElement('h3')
-    namePokemon.textContent = pokemon.name
-
     const divContainer = document.createElement('div')
+    divContainer.appendChild(infoPokemon)
     divContainer.appendChild(imgPokemon)
-    divContainer.appendChild(namePokemon)
 
     pokemonContainer.appendChild(divContainer)
 }
